@@ -12,11 +12,20 @@
 // http://facebook.github.io/jest/docs/en/webpack.html
 
 module.exports = {
-  process() {
-    return 'module.exports = {};';
+  process(fileContent) {
+    console.log('object');
+    const demo = `module.exports = (function demo() {
+      const style = document.createElement("style");
+      style.setAttribute("type", "text/css");
+      style.innerHTML = "${fileContent.replace(/[\n]/g, ' ')}";
+      document.body.appendChild(style);
+      return null;
+  })()`;
+    console.log(demo);
+    return demo;
   },
-  getCacheKey() {
+  getCacheKey(fileContent, fileAbsolutePath) {
     // The output is always the same.
-    return 'cssTransform';
+    return fileAbsolutePath;
   },
 };
